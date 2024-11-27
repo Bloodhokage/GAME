@@ -1,4 +1,7 @@
+
 import play.*;
+import player.*;
+
 import java.util.Scanner;
 
 public class Main {
@@ -27,21 +30,34 @@ public class Main {
                 case 3 -> 1_000_000;
                 default -> {
                     System.out.println("Некоректний вибір рівня складності. Використано рівень: Легкий (1-100).");
-                    yield 100;}
+                    yield 100;
+                }
             };
 
-            GameLogic game = switch (mode) {
-                case 1 -> new PlayerGuessesGame((int) (Math.random() * maxRange) + 1, maxRange);
-                case 2 -> new ComputerGuessesGame(maxRange);
-                case 3 -> new ComputerVsComputerGame(maxRange);
-                case 4 -> new PlayerVsPlayerGame(maxRange);
-                default -> null;
-            };
+            Player player1 = null, player2 = null;
 
-            if (game != null) {
-                game.play();
-            } else {
-                System.out.println("Невірний вибір. Завершення гри.");
+            switch (mode) {
+                case 1 -> {
+                    player1 = new Human();
+                    player2 = new PC(maxRange);
+                }
+                case 2 -> {
+                    player1 = new PC(maxRange);
+                    player2 = new Human();
+                }
+                case 3 -> {
+                    player1 = new PC(maxRange);
+                    player2 = new PC(maxRange);
+                }
+                case 4 -> {
+                    player1 = new Human();
+                    player2 = new Human();
+                }
+                default -> System.out.println("Невірний вибір.");
+            }
+
+            if (player1 != null && player2 != null) {
+                new Game(player1, player2, maxRange).play();
             }
 
             System.out.println("Почати гру заново? (КАНЄШНА/НАГРАВСЯ)");
