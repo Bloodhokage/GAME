@@ -1,7 +1,4 @@
-package src.source;
-
-
-import src.play.*;
+import play.*;
 import java.util.Scanner;
 
 public class Main {
